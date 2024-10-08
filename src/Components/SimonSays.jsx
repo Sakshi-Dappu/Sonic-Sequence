@@ -1,55 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SimonSays.css";
 export default function SimonSays() {
-  let GameStatus = false;
-  function ClickButton({ index, color }) {
+  const [gameStatus, setGameStatus] = useState(false);
+  const [gameSeq, setGameSeq] = useState([]);
+  const [userSeq, setUserSeq] = useState([]);
+  const [flash, setFlash] = useState(null);
+  let colours = ["red", "blue", "green", "yellow"];
+
+  const ClickButton = ({ index, color, Color_id }) => {
     return (
       <button
-        className="GameBtn"
-        onClick={() => userClick(index, color)}
-        style={{ backgroundColor: color }}
+        className={`GameBtn ${flash === Color_id ? "flash" : ""}`}
+        id={Color_id}
+        onClick={() => userClick(index, Color_id)}
+        on
+        style={{
+          backgroundColor: color,
+        }}
       ></button>
     );
-  }
-  let gameSeq = [];
-  let userSeq = [];
-  function StartGame() {
-    if (GameStatus == false) {
-      GameStatus = true;
-      console.log("Game Started", "GameSeq is => ", gameSeq);
+  };
+
+  const StartGame = () => {
+    let randIdx = Math.floor(Math.random() * 4);
+    let randColor = colours[randIdx];
+    // let level = 0;
+    if (gameStatus == false) {
+      //   level++;
+      setGameStatus(true);
+
       setTimeout(() => {
-        let randIdx = Math.floor(Math.random() * 4);
-        console.log(randIdx);
-        gameSeq.push(randIdx);
+        setFlash(randColor);
+        ClickButton({ randIdx, randColor, randColor });
+        console.log("Random Color", randColor);
       }, 1000);
+
+      setTimeout(() => {
+        setGameSeq((prevSeq) => [...prevSeq, randColor]);
+        setFlash(null);
+        console.log("Game Started", "GameSeq is => ", gameSeq);
+      }, 1500);
     } else {
       console.log("Game is already started");
     }
-  }
+  };
 
-    // function GameFlash() {
-    //   let randIdx = Math.floor(Math.random() * 4);
-    //   console.log(randIdx);
-    // }
-
-  const userClick = (index, color) => {
-    userSeq.push(index);
-    return console.log("Button :", index, "color:", color, "userSeq is:", userSeq);
+  const userClick = (index, Color_id) => {
+    setFlash(Color_id);
+    setTimeout(() => {
+      setFlash(null);
+    }, 500);
+    setUserSeq((prevSeq) => [...prevSeq, index]);
+    return console.log(
+      "Button :",
+      index,
+      "color:",
+      Color_id,
+      "userSeq is:",
+      userSeq
+    );
   };
 
   return (
     <div>
       <h1>Simon Says</h1>
-      <button className="GameStart" onClick={StartGame}>
-        Start Game
-      </button>
+      {gameStatus ? (
+        <span>
+          <h2>Level is 1</h2>
+        </span>
+      ) : (
+        <button className="GameStart" onClick={StartGame}>
+          Start Game
+        </button>
+      )}
+
       <div className="row">
-        <ClickButton index={0} color="rgb(163, 61, 107)" />
-        <ClickButton index={1} color=" rgb(92, 109, 204)" />
+        <ClickButton index={0} color="red" Color_id="red" />
+        <ClickButton index={1} color="blue" Color_id="blue" />
       </div>
       <div className="row">
-        <ClickButton index={2} color="rgb(64, 149, 98)" />
-        <ClickButton index={3} color="rgb(114, 136, 58)" />
+        <ClickButton index={2} color="green" Color_id="green" />
+        <ClickButton index={3} color="yellow" Color_id="yellow" />
       </div>
     </div>
   );
