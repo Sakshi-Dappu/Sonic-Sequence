@@ -11,3 +11,42 @@
   transform: scale(1.1);
 }
 
+.GameStart {
+  background-color: rgb(235, 238, 244);
+  color: rgb(74, 123, 209);
+  border: none;
+  border-radius: 2rem;
+  height: 5rem;
+  width: 15rem;
+  font-size: 2rem;
+  font-family:monospace;
+}
+
+* {
+  background-color: rgb(147, 180, 237);
+  color: rgb(242, 238, 245);
+  text-align: center;
+}
+
+h1 {
+    font-size: 4rem;
+}
+h2 {
+    font-size: 3rem;
+}
+
+@media (max-width: 550px) {
+    
+    .GameBtn {
+        height: 8rem;
+        width: 8rem;
+        border-radius: 2rem;
+        border: none;
+        
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrapd;
+      }
+
+}

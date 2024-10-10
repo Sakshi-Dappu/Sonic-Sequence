@@ -5,10 +5,8 @@ export default function SimonSays() {
   const [gameSeq, setGameSeq] = useState([]);
   const [userSeq, setUserSeq] = useState([]);
   const [flash, setFlash] = useState(null);
-  let colours = ["red", "blue", "green", "yellow"];
-
-  let randIdx = Math.floor(Math.random() * 4);
-  let randColor = colours[randIdx];
+  const [level, setLevel] = useState(0);
+  const colours = ["red", "blue", "green", "yellow"];
 
   const flashButton = (colorId) => {
     setFlash(colorId);
@@ -18,8 +16,15 @@ export default function SimonSays() {
   };
 
   const levelUp = () => {
-    let level = 0;
-    level = level + 1;
+    setUserSeq([]);
+    setLevel((preLevel) => preLevel + 1);
+    let randIdx = Math.floor(Math.random() * 4);
+    let randColor = colours[randIdx];
+    setGameSeq((prevSeq) => [...prevSeq, randColor]);
+
+    setTimeout(() => {
+      flashButton(randColor);
+    }, 1000);
   };
 
   const GameButton = ({ index, color, colorId }) => {
@@ -36,23 +41,10 @@ export default function SimonSays() {
   };
 
   const StartGame = () => {
-    if (gameStatus === false) {
-      setGameStatus(true);
-
-      setTimeout(() => {
-        setFlash(randColor);
-        GameButton({ randIdx, randColor, randColor });
-        console.log("Random Color", randColor);
-      }, 1000);
-
-      setTimeout(() => {
-        setGameSeq((prevSeq) => [...prevSeq, randColor]);
-        setFlash(null);
-        // console.log("Game Started", "GameSeq is => ", gameSeq);
-      }, 1500);
-    } else {
-      console.log("Game is already started");
-    }
+    setGameStatus(true);
+    setGameSeq([]);
+    setLevel(0);
+    levelUp();
   };
 
   const userClick = (index, colorId) => {
@@ -62,27 +54,33 @@ export default function SimonSays() {
       setUserSeq((prevSeq) => [...prevSeq, colours[index]]);
     }, 500);
 
-    return console.log("color:", colorId, "userSeq is:", userSeq);
+    console.log("color:", colorId, "userSeq is:", userSeq);
   };
 
-  useEffect(() => {
-    if (userSeq.length === gameSeq.length && userSeq.length != 0) {
-      console.log("Promoted to next step");
-      let randIdx = Math.floor(Math.random() * 4);
-      let randColor = colours[randIdx];
-      flashButton(randColor);
-      levelUp();
-    } else {
-      console.log("Wrong Sequence");
-    }
-  }, [gameSeq, userSeq]);
+  useEffect(
+    () => {
+      if (userSeq.length > 0) {
+        let correct = userSeq.every((color, idx) => color === gameSeq[idx]);
+        if (correct) {
+          if (userSeq.length === gameSeq.length) {
+            levelUp();
+          }
+        } else {
+          alert(`Game Over!! : ) Your Score is :${level}`);
+          setGameStatus(false);
+        }
+      }
+    },
+    [userSeq],
+    [gameSeq]
+  );
 
   return (
     <div>
       <h1>Simon Says</h1>
       {gameStatus ? (
         <span>
-          <h2>Level is`${levelUp}`</h2>
+          <h2>Level: {level}</h2>
         </span>
       ) : (
         <button className="GameStart" onClick={StartGame}>
