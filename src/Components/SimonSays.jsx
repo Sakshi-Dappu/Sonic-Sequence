@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SimonSays.css";
 export default function SimonSays() {
   const [gameStatus, setGameStatus] = useState(false);
@@ -7,13 +7,27 @@ export default function SimonSays() {
   const [flash, setFlash] = useState(null);
   let colours = ["red", "blue", "green", "yellow"];
 
-  const ClickButton = ({ index, color, Color_id }) => {
+  let randIdx = Math.floor(Math.random() * 4);
+  let randColor = colours[randIdx];
+
+  const flashButton = (colorId) => {
+    setFlash(colorId);
+    setTimeout(() => {
+      setFlash(null);
+    }, 500);
+  };
+
+  const levelUp = () => {
+    let level = 0;
+    level = level + 1;
+  };
+
+  const GameButton = ({ index, color, colorId }) => {
     return (
       <button
-        className={`GameBtn ${flash === Color_id ? "flash" : ""}`}
-        id={Color_id}
-        onClick={() => userClick(index, Color_id)}
-        on
+        className={`GameBtn ${flash === colorId ? "flash" : ""}`}
+        id={colorId}
+        onClick={() => userClick(index, colorId)}
         style={{
           backgroundColor: color,
         }}
@@ -22,51 +36,53 @@ export default function SimonSays() {
   };
 
   const StartGame = () => {
-    let randIdx = Math.floor(Math.random() * 4);
-    let randColor = colours[randIdx];
-    // let level = 0;
-    if (gameStatus == false) {
-      //   level++;
+    if (gameStatus === false) {
       setGameStatus(true);
 
       setTimeout(() => {
         setFlash(randColor);
-        ClickButton({ randIdx, randColor, randColor });
+        GameButton({ randIdx, randColor, randColor });
         console.log("Random Color", randColor);
       }, 1000);
 
       setTimeout(() => {
         setGameSeq((prevSeq) => [...prevSeq, randColor]);
         setFlash(null);
-        console.log("Game Started", "GameSeq is => ", gameSeq);
+        // console.log("Game Started", "GameSeq is => ", gameSeq);
       }, 1500);
     } else {
       console.log("Game is already started");
     }
   };
 
-  const userClick = (index, Color_id) => {
-    setFlash(Color_id);
+  const userClick = (index, colorId) => {
+    setFlash(colorId);
     setTimeout(() => {
       setFlash(null);
+      setUserSeq((prevSeq) => [...prevSeq, colours[index]]);
     }, 500);
-    setUserSeq((prevSeq) => [...prevSeq, index]);
-    return console.log(
-      "Button :",
-      index,
-      "color:",
-      Color_id,
-      "userSeq is:",
-      userSeq
-    );
+
+    return console.log("color:", colorId, "userSeq is:", userSeq);
   };
+
+  useEffect(() => {
+    if (userSeq.length === gameSeq.length && userSeq.length != 0) {
+      console.log("Promoted to next step");
+      let randIdx = Math.floor(Math.random() * 4);
+      let randColor = colours[randIdx];
+      flashButton(randColor);
+      levelUp();
+    } else {
+      console.log("Wrong Sequence");
+    }
+  }, [gameSeq, userSeq]);
 
   return (
     <div>
       <h1>Simon Says</h1>
       {gameStatus ? (
         <span>
-          <h2>Level is 1</h2>
+          <h2>Level is`${levelUp}`</h2>
         </span>
       ) : (
         <button className="GameStart" onClick={StartGame}>
@@ -75,12 +91,12 @@ export default function SimonSays() {
       )}
 
       <div className="row">
-        <ClickButton index={0} color="red" Color_id="red" />
-        <ClickButton index={1} color="blue" Color_id="blue" />
+        <GameButton index={0} color="red" colorId="red" />
+        <GameButton index={1} color="blue" colorId="blue" />
       </div>
       <div className="row">
-        <ClickButton index={2} color="green" Color_id="green" />
-        <ClickButton index={3} color="yellow" Color_id="yellow" />
+        <GameButton index={2} color="green" colorId="green" />
+        <GameButton index={3} color="yellow" colorId="yellow" />
       </div>
     </div>
   );
