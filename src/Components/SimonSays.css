@@ -4,6 +4,7 @@
   margin: 30px;
   border-radius: 2rem;
   border: none;
+  
 }
 
 .GameBtn.flash {
@@ -22,6 +23,11 @@
   font-family:monospace;
 }
 
+.GameStart:hover{
+   background-color: black;
+   color: rgb(74, 123, 209);
+}
+
 * {
   background-color: rgb(147, 180, 237);
   color: rgb(242, 238, 245);
@@ -33,6 +39,11 @@ h1 {
 }
 h2 {
     font-size: 3rem;
+}
+.row {
+    display: flex;
+    flex-direction: wrap;
+    justify-content: center;
 }
 
 @media (max-width: 550px) {
@@ -46,7 +57,7 @@ h2 {
       }
       .row {
         display: flex;
-        flex-wrap: wrapd;
+        flex-wrap: wrap;
       }
 
 }
