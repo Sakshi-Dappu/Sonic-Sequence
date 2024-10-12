@@ -1,2 +1,2 @@
 # Sonic Sequence
- deployed here : https://sonic-sequence.netlify.app
+ Deployed here : https://sonic-sequence.netlify.app
