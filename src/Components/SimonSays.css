@@ -4,7 +4,6 @@
   margin: 30px;
   border-radius: 2rem;
   border: none;
-  
 }
 
 .GameBtn.flash {
@@ -20,48 +19,48 @@
   height: 5rem;
   width: 15rem;
   font-size: 2rem;
-  font-family:monospace;
+  font-family: monospace;
 }
 
-.GameStart:hover{
-   background-color: rgb(88, 115, 173);
-   color: white;
+.GameStart:hover {
+  background-color: rgb(88, 115, 173);
+  color: white;
 }
 
 * {
-  background-color: rgb(38, 48, 65);
-  color: rgb(242, 238, 245);
+  color: rgb(43, 43, 90);
   text-align: center;
 }
 
 h1 {
-    font-size: 4rem;
+  font-size: 4rem;
 }
 h2 {
-    font-size: 3rem;
+  font-size: 3rem;
+ 
 }
 .row {
-    display: flex;
-    flex-direction: wrap;
-    justify-content: center;
+  display: flex;
+  flex-direction: wrap;
+  justify-content: center;
 }
 
 @media (max-width: 550px) {
-    
-    .GameBtn {
-        height: 8rem;
-        width: 8rem;
-        border-radius: 2rem;
-        border: none;
-        
-      }
-      .row {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
+  .GameBtn {
+    height: 8rem;
+    width: 8rem;
+    border-radius: 2rem;
+    border: none;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 h3 {
-    font-size: 2rem;
+  font-size: 2rem;
+}
+.container {
+    margin: 5rem;
 }

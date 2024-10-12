@@ -78,7 +78,7 @@ export default function SimonSays() {
   let HighestScore = Math.max(...highestScore);
 
   return (
-    <div>
+    <div className="container">
       <h1>Sonic Sequence</h1>
       {/* Show game over message only if the game has ended and was started */}
       {gameEnd ? ( // Game has ended and was started
