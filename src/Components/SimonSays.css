@@ -24,12 +24,12 @@
 }
 
 .GameStart:hover{
-   background-color: black;
-   color: rgb(74, 123, 209);
+   background-color: rgb(88, 115, 173);
+   color: white;
 }
 
 * {
-  background-color: rgb(147, 180, 237);
+  background-color: rgb(38, 48, 65);
   color: rgb(242, 238, 245);
   text-align: center;
 }
@@ -60,4 +60,8 @@ h2 {
         flex-wrap: wrap;
       }
 
+}
+
+h3 {
+    font-size: 2rem;
 }
